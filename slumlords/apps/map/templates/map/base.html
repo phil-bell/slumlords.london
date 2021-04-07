@@ -1,16 +1,16 @@
 {% extends 'shared/base.html' %}
 {% load static %}
 
-
 {% block title %}
-    <title>Home</title>
+  <title>Map</title>
 {% endblock title %}
 {% block links %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/map.css' %}">
 {% endblock links %}
 {% block scripts %}
+  <script type="module" src="{% static 'js/bundle.js' %}"></script>
 {% endblock scripts %}
 {% block base_content %}
-    {% block content %}
-    {% endblock content %}
+  {% block content %}
+  {% endblock content %}
 {% endblock base_content %}

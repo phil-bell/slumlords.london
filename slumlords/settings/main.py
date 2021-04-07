@@ -12,19 +12,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 ALLOWED_HOSTS = ["*"]
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -33,13 +25,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
+    "address",
     "slumlords.api",
     "slumlords.apps.home",
     "slumlords.apps.map",
     "slumlords.apps.reading",
-    "slumlords.apps.reviews",
+    "slumlords.apps.review",
     "slumlords.apps.support",
     "slumlords.apps.wall_of_shame",
+    "slumlords.apps.shared",
+    "slumlords.apps.account",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +46,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "slumlords.urls"
@@ -72,19 +69,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "slumlords.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -101,10 +91,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -115,13 +101,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [f"{BASE_DIR}/static/"]
 STATIC_ROOT = f"{BASE_DIR}/staticfiles/"
+
+CORS_ALLOWED_ORIGINS = ["https://maps.googleapis.com"]
+CORS_ALLOW_ALL_ORIGINS = True
+
+LOGIN_URL = "account:login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "account:login"
 
 try:
     from .local import *
